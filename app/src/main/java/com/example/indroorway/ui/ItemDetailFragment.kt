@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.indroorway.R
-
-import com.example.indroorway.models.DummyContent
+import com.example.indroorway.models.CountriesPojo
 
 /**
  * A fragment representing a single Item detail screen.
@@ -23,10 +22,12 @@ import com.example.indroorway.models.DummyContent
  */
 class ItemDetailFragment : Fragment() {
 
+
+
     /**
-     * The dummy content this fragment is presenting.
+     * The ontent this fragment is presenting.
      */
-    private var mItem: DummyContent.DummyItem? = null
+    private var mItem: CountriesPojo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,13 +36,16 @@ class ItemDetailFragment : Fragment() {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP[arguments!!.getString(ARG_ITEM_ID)]
+
+            //TODO
+         /*   mItem = DummyContent.ITEM_MAP[arguments!!.getString(ARG_ITEM_ID)]
 
             val activity = this.activity
             val appBarLayout = activity!!.findViewById<View>(R.id.toolbar_layout) as CollapsingToolbarLayout
+
             if (appBarLayout != null) {
                 appBarLayout.title = mItem!!.content
-            }
+            }*/
         }
     }
 
@@ -50,10 +54,12 @@ class ItemDetailFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
+
+        //TODO
+       /* if (mItem != null) {
             (rootView.findViewById<View>(R.id.item_detail) as TextView).text = mItem!!.details
         }
-
+*/
         return rootView
     }
 

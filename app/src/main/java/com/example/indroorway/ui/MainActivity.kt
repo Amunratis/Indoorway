@@ -8,12 +8,13 @@ import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.indroorway.App
 import com.example.indroorway.R
 import com.example.indroorway.baseClasses.BaseActivity
 import com.example.indroorway.models.CountriesPojo
 
-import com.example.indroorway.models.DummyContent
 import com.example.indroorway.utils.RestApi
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,9 +35,14 @@ class MainActivity : BaseActivity() {
      */
     private var mTwoPane: Boolean = false
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+
+        (application as App).getNetComponent()?.inject(this)
+
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
@@ -56,22 +62,24 @@ class MainActivity : BaseActivity() {
             mTwoPane = true
         }
 
-        val recyclerView = findViewById<View>(R.id.item_list)
-        assert(recyclerView != null)
+        val recyclerView = findViewById<View>(R.id.item_list)!!
         setupRecyclerView(recyclerView as RecyclerView)
 
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
 
         try {
-            val countries = retrofit!!.create(RestApi::class.java).getCountries()
+            val countries = retrofit.create(RestApi::class.java).getCountries()
 
             countries.enqueue(object : Callback<List<CountriesPojo>> {
+
                 override fun onResponse(call: Call<List<CountriesPojo>>, response: Response<List<CountriesPojo>>) {
 
+                    val countries = response.body()
+                    toast(countries?.get(0)?.name.toString())
 
-                    val cakes = response.body()
-
-
-                    recyclerView.adapter = SimpleItemRecyclerViewAdapter(this@MainActivity, cakes)
+                    recyclerView.adapter = countries?.let { SimpleItemRecyclerViewAdapter(this@MainActivity, it, mTwoPane) }
                 }
 
                 override fun onFailure(call: Call<List<CountriesPojo>>, t: Throwable) {
@@ -86,9 +94,4 @@ class MainActivity : BaseActivity() {
         }
 
     }
-
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane)
-    }
-
 }
