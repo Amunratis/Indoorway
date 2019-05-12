@@ -1,85 +1,96 @@
 package com.example.indroorway.models
-
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.ArrayList
 
-class CountriesPojo() : Parcelable {
-    // Getter Methods
 
-    // Setter Methods
+data class CountriesPojo(
+        val alpha2Code: String?,
+        val alpha3Code: String?,
+        val altSpellings: List<String>?,
+        val area: Double,
+        val borders: List<String>?,
+        val callingCodes: List<String>?,
+        val capital: String?,
+        val cioc: String?,
+        val currencies: List<Currency>?,
+        val demonym: String?,
+        val flag: String?,
+        val gini: String?,
+        val languages: List<Language>?,
+        val latlng: List<Double>,
+        val name: String?,
+        val nativeName: String?,
+        val numericCode: String?,
+        val population: Int,
+        val region: String?,
+        val regionalBlocs: ArrayList<RegionalBloc>?,
+        val subregion: String?,
+        val timezones: List<String>?,
+        val topLevelDomain: List<String>?,
+        val translations: Translations?
+) : Parcelable {
 
-    var name: String? = null
-    internal var topLevelDomain = ArrayList<Any>()
-    var alpha2Code: String? = null
-    var alpha3Code: String? = null
-    internal var callingCodes = ArrayList<Any>()
-    var capital: String? = null
-    internal var altSpellings = ArrayList<Any>()
-    var region: String? = null
-    var subregion: String? = null
-    var population: Float = 0.toFloat()
-    internal var latlng = ArrayList<Any>()
-    var demonym: String? = null
-    var area: Float = 0.toFloat()
-    var gini: Float = 0.toFloat()
-    internal var timezones = ArrayList<Any>()
-    internal var borders = ArrayList<Any>()
-    var nativeName: String? = null
-    var numericCode: String? = null
-    internal var currencies = ArrayList<Any>()
-    internal var languages = ArrayList<Any>()
-    lateinit var translations: Translations
-    var flag: String? = null
-    internal var regionalBlocs = ArrayList<Any>()
-    var cioc: String? = null
+    constructor(source: Parcel) : this(
+            source.readString(),
+            source.readString(),
+            source.createStringArrayList(),
+            source.readDouble(),
+            source.createStringArrayList(),
+            source.createStringArrayList(),
+            source.readString(),
+            source.readString(),
+            source.createTypedArrayList(Currency.CREATOR),
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.createTypedArrayList(Language.CREATOR),
+            ArrayList<Double>().apply { source.readList(this, Double::class.java.classLoader) },
+            source.readString(),
+            source.readString(),
+            source.readString(),
+            source.readInt(),
+            source.readString(),
+            source.createTypedArrayList(RegionalBloc.CREATOR),
+            source.readString(),
+            source.createStringArrayList(),
+            source.createStringArrayList(),
+            source.readParcelable<Translations>(Translations::class.java.classLoader)
+    )
 
-    constructor(parcel: Parcel) : this() {
-        name = parcel.readString()
-        alpha2Code = parcel.readString()
-        alpha3Code = parcel.readString()
-        capital = parcel.readString()
-        region = parcel.readString()
-        subregion = parcel.readString()
-        population = parcel.readFloat()
-        demonym = parcel.readString()
-        area = parcel.readFloat()
-        gini = parcel.readFloat()
-        nativeName = parcel.readString()
-        numericCode = parcel.readString()
-        flag = parcel.readString()
-        cioc = parcel.readString()
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(alpha2Code)
+        writeString(alpha3Code)
+        writeStringList(altSpellings)
+        writeDouble(area)
+        writeStringList(borders)
+        writeStringList(callingCodes)
+        writeString(capital)
+        writeString(cioc)
+        writeTypedList(currencies)
+        writeString(demonym)
+        writeString(flag)
+        writeString(gini)
+        writeTypedList(languages)
+        writeList(latlng)
+        writeString(name)
+        writeString(nativeName)
+        writeString(numericCode)
+        writeInt(population)
+        writeString(region)
+        writeTypedList(regionalBlocs)
+        writeString(subregion)
+        writeStringList(timezones)
+        writeStringList(topLevelDomain)
+        writeParcelable(translations, 0)
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeString(alpha2Code)
-        parcel.writeString(alpha3Code)
-        parcel.writeString(capital)
-        parcel.writeString(region)
-        parcel.writeString(subregion)
-        parcel.writeFloat(population)
-        parcel.writeString(demonym)
-        parcel.writeFloat(area)
-        parcel.writeFloat(gini)
-        parcel.writeString(nativeName)
-        parcel.writeString(numericCode)
-        parcel.writeString(flag)
-        parcel.writeString(cioc)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<CountriesPojo> {
-        override fun createFromParcel(parcel: Parcel): CountriesPojo {
-            return CountriesPojo(parcel)
-        }
-
-        override fun newArray(size: Int): Array<CountriesPojo?> {
-            return arrayOfNulls(size)
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<CountriesPojo> = object : Parcelable.Creator<CountriesPojo> {
+            override fun createFromParcel(source: Parcel): CountriesPojo = CountriesPojo(source)
+            override fun newArray(size: Int): Array<CountriesPojo?> = arrayOfNulls(size)
         }
     }
 }
-

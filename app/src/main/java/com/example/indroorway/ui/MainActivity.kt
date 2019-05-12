@@ -77,13 +77,14 @@ class MainActivity : BaseActivity() {
                 override fun onResponse(call: Call<List<CountriesPojo>>, response: Response<List<CountriesPojo>>) {
 
                     val countries = response.body()
-                    toast(countries?.get(0)?.name.toString())
+                    toast(countries?.get(0)?.latlng.toString())
+                    Log.d("Latte", countries?.get(0)?.latlng.toString())
 
                     recyclerView.adapter = countries?.let { SimpleItemRecyclerViewAdapter(this@MainActivity, it, mTwoPane) }
                 }
 
                 override fun onFailure(call: Call<List<CountriesPojo>>, t: Throwable) {
-                    Log.d("Error", t.message)
+                    Log.d("Latte", t.message)
                     Toast.makeText(this@MainActivity, "Error Fetching Data!", Toast
                             .LENGTH_LONG).show()
                 }

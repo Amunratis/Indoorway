@@ -1,14 +1,13 @@
 package com.example.indroorway.ui
 
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.indroorway.R
 import com.example.indroorway.models.CountriesPojo
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * A fragment representing a single Item detail screen.
@@ -23,16 +22,15 @@ import com.example.indroorway.models.CountriesPojo
 class ItemDetailFragment : Fragment() {
 
 
-
     /**
      * The ontent this fragment is presenting.
      */
-    private var mItem: CountriesPojo? = null
+   var mItem: CountriesPojo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (arguments!!.containsKey(ARG_ITEM_ID)) {
+        if (arguments!!.containsKey("parcelable")) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
@@ -46,7 +44,10 @@ class ItemDetailFragment : Fragment() {
             if (appBarLayout != null) {
                 appBarLayout.title = mItem!!.content
             }*/
+            mItem= arguments!!.getParcelable("parcelable") as CountriesPojo?
+            toast(mItem?.name.toString())
         }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -1,14 +1,26 @@
 package com.example.indroorway.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.Toolbar
-import android.view.View
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.example.indroorway.R
+import com.example.indroorway.models.CountriesPojo
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_item_detail.*
+import org.jetbrains.anko.toast
+
+
 
 /**
  * An activity representing a single Item detail screen. This
@@ -16,59 +28,52 @@ import com.example.indroorway.R
  * item details are presented side-by-side with a list of items
  * in a [MainActivity].
  */
-class ItemDetailActivity : AppCompatActivity() {
+class ItemDetailActivity : AppCompatActivity(), OnMapReadyCallback {
+
+    private lateinit var mMap: GoogleMap
+    lateinit var countriesPojo: CountriesPojo
+
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        val countryPosti = LatLng(countriesPojo.latlng[0], countriesPojo.latlng[1])
+        mMap.addMarker(MarkerOptions().position(countryPosti).title("Marker"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(countryPosti))
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-        val toolbar = findViewById<View>(R.id.detail_toolbar) as Toolbar
-        setSupportActionBar(toolbar)
 
-        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        countriesPojo= intent.getParcelableExtra("parcel")
+        name.text = countriesPojo.capital.toString()
 
-        // Show the Up button in the action bar.
-        val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
+
+        val mapFragment = supportFragmentManager
+                .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            val arguments = Bundle()
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID,
-                    intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
-            val fragment = ItemDetailFragment()
-            fragment.arguments = arguments
+
+            val fragment = ItemDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putString(
+                            ItemDetailFragment.ARG_ITEM_ID,
+                            intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+                    )
+                }
+            }
+
             supportFragmentManager.beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit()
         }
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            navigateUpTo(Intent(this, MainActivity::class.java))
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
