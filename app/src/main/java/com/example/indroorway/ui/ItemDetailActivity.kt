@@ -6,7 +6,7 @@ import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import com.example.indroorway.R
 import com.example.indroorway.models.CountriesPojo
-
+import com.example.indroorway.utils.Constants
 
 
 /**
@@ -25,6 +25,7 @@ lateinit var countries: CountriesPojo
 
 
         if (savedInstanceState == null) {
+
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
 
@@ -32,7 +33,7 @@ lateinit var countries: CountriesPojo
 
             val fragment = ItemDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("parcelable", countries )
+                    putParcelable(Constants.PARCEL_ID, countries )
                 }
             }
 

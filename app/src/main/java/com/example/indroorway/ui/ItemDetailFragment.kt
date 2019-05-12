@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.indroorway.R
 import com.example.indroorway.models.CountriesPojo
+import com.example.indroorway.utils.Constants
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.item_detail.*
+import kotlinx.android.synthetic.main.item_detail.view.*
 
 
 /**
@@ -42,17 +44,13 @@ class ItemDetailFragment : Fragment(), OnMapReadyCallback  {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(countryPosti))
     }
 
-    /**
-     * The ontent this fragment is presenting.
-     */
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if(savedInstanceState==null) {
             arguments?.let {
-                countriesPojo = it.getParcelable("parcelable") as CountriesPojo
+                countriesPojo = it.getParcelable(Constants.PARCEL_ID) as CountriesPojo
             }
 
 
@@ -68,31 +66,18 @@ class ItemDetailFragment : Fragment(), OnMapReadyCallback  {
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(com.example.indroorway.R.layout.item_detail, container, false)
 
-
-
-        //
-
-
-        // Show the dummy content as text in a TextView.
-
-        //TODO
-       /* if (mItem != null) {
-            (rootView.findViewById<View>(R.id.item_detail) as TextView).text = mItem!!.details
-        }
-*/
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        name.text = countriesPojo.name.toString()
+        name.text =getString(R.string.Name) + countriesPojo.name.toString()
+        population.text=getString(R.string.Population) + countriesPojo.population.toString()
+        capitol.text="Capitol: " + countriesPojo.capital.toString()
+        area.text="Area: " + countriesPojo.area.toString()
+
+
     }
 
-    companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        val ARG_ITEM_ID = "item_id"
-    }
+
 }

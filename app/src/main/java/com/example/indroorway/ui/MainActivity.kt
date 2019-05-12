@@ -70,7 +70,6 @@ class MainActivity : BaseActivity() {
         }
 
         recyclerView = findViewById<View>(R.id.item_list)!! as RecyclerView
-
         setupRecyclerView(recyclerView)
 
     }
@@ -85,7 +84,7 @@ class MainActivity : BaseActivity() {
                 override fun onResponse(call: Call<List<CountriesPojo>>, response: Response<List<CountriesPojo>>) {
 
                     val countries = response.body()
-                    toast(countries?.get(0)?.latlng.toString())
+
                     Log.d("Latte", countries?.get(0)?.latlng.toString())
 
                     recyclerView.adapter = countries?.let { SimpleItemRecyclerViewAdapter(this@MainActivity, it, mTwoPane) }
@@ -104,6 +103,7 @@ class MainActivity : BaseActivity() {
         }
 
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         // Associate search_layout configuration with the SearchView

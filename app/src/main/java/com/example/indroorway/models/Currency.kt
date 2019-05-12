@@ -2,10 +2,6 @@ package com.example.indroorway.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.versionedparcelable.VersionedParcelize
-import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
-
 
 data class Currency(
         val code: String,

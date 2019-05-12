@@ -11,7 +11,7 @@ interface RestApi {
 
 
     @GET("all")
-    abstract fun getCountries(): Call<List<CountriesPojo>>
+    fun getCountries(): Call<List<CountriesPojo>>
 
 }
 
