@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,18 +22,43 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/item_list"
         android:name="com.example.indroorway.ItemListFragment"
-        android:layout_width="@dimen/item_width"
+        android:layout_width="177dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="36dp"
         app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context="com.example.indroorway.ui.MainActivity"
         tools:listitem="@layout/item_list_content" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="29dp"
+        app:layout_constraintBottom_toTopOf="@+id/item_detail_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_list"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".ui.ItemDetailActivity" />
 
     <FrameLayout
         android:id="@+id/item_detail_container"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_height="0dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="37dp"
+        android:layout_weight="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_list"
+        app:layout_constraintTop_toBottomOf="@+id/map" />
 
-</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
